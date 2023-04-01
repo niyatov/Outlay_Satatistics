@@ -1,0 +1,89 @@
+﻿@model GetStatisticsVM
+
+<h6>TotalSum : @Model.TotalSum</h6>
+<h6>NumberOfOutlays : @Model.NumberOfOutlays</h6>
+
+@if (Model.IsPrivate == false)
+{
+    <h6>NumberOfPeople : @Model.NumberOfPeople</h6>
+}
+<h6>StartedAt : @Model.StartedAt</h6>
+<h6>FinishedAt : @Model.FinishedAt</h6>
+
+@if (Model.IsPrivate == false)
+{
+    <h6>NumberOfYourOutlays : @Model.NumberOfYourOutlays</h6>
+    <h6>You spent : @Model.SpentMoney</h6>
+}
+
+@if (Model.IsPrivate == false && Model.ResultMoney ==0)
+{
+    <h6>You will do : noting </h6>
+}
+else if (Model.IsPrivate == false && Model.ResultMoney > 0)
+{
+    <h6>You will take :  @Model.ResultMoney </h6>
+}
+else if (Model.IsPrivate == false && Model.ResultMoney < 0)
+{
+    <h6>You will give :  @(-Model.ResultMoney) </h6>
+}
+
+<br />
+<br />
+
+@{
+    int i = 0;
+}
+
+@if(Model.IsPrivate == false)
+{
+    <table class="table">
+        <thead>
+
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Money</th>
+                <th scope="col">Action</th>
+            </tr>
+
+        </thead>
+        <tbody>
+
+            @foreach (var dict in Model.Dict)
+            {
+                <tr>
+                    <th scope="row">@(++i)</th>
+                    <td>@dict.Key</td>
+                    <td>@(Math.Abs(Convert.ToInt64(dict.Value)))</td>
+                    @if (dict.Value > 0)
+                    {
+                        <td>take</td>
+                    }
+                    else if (dict.Value < 0)
+                    {
+                        <td>give</td>
+                    }
+                    else
+                    {
+                        <td>do noting</td>
+                    }
+                </tr>
+            }
+
+        </tbody>
+    </table>
+}
+
+<br />
+<br />
+
+@if(Model.IsAdmin)
+{
+    <td> <a asp-controller="Category" asp-action="RefreshCategory" asp-route-categoryId="@Model.CategoryId" class="btn btn-danger">ClearCategory </a></td>
+}
+
+<br />
+<br />
+<td> <a asp-controller="Category" asp-action="GetCategory" asp-route-categoryId="@Model.CategoryId" class="btn btn-info"> Go to Category </a></td>

@@ -1,0 +1,31 @@
+﻿@using outlay_mvc.Dtoes;
+@model CreateCategoryDto
+
+<form method="post" class="mx-1 mx-md-4">
+
+    <div class="mb-3">
+        <label for="Name" class="form-label">Name</label>
+        <input type="text" asp-for="Name" class="form-control">
+        <span class="text-danger" asp-validation-for="Name"></span>
+    </div>
+
+    <div class="mb-3">
+        <label for="Description" class="form-label">Description</label>
+        <input type="text" asp-for="Description" class="form-control">
+        <span class="text-danger" asp-validation-for="Description"></span>
+    </div>
+
+    <div class="mb-3">
+        <label for="Key" class="form-label">Key</label>
+        <input type="text" asp-for="Key" class="form-control">
+        <span class="text-danger" asp-validation-for="Key"></span>
+        <div class="form-text">If it is private,write nothing </div>
+    </div>
+
+    <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
+        <button type="submit" class="btn btn-primary btn-lg">Create</button>
+    </div>
+
+</form>
+
+<div class="text-danger" asp-validation-summary="ModelOnly"></div>

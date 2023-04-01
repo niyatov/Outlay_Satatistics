@@ -1,0 +1,50 @@
+﻿@using outlay_mvc.Dtoes;
+@using outlay_mvc.Entities;
+@model CreateOutlayDto
+
+@{
+    List<UserCategory> categories = new List<UserCategory>();
+    categories = @ViewBag.Categories;
+}
+
+<form method="post" class="mx-1 mx-md-4">
+
+    <div class="mb-3">
+        <label for="Name" class="form-label">Name</label>
+        <input type="text" asp-for="Name" class="form-control">
+        <span class="text-danger" asp-validation-for="Name"></span>
+    </div>
+
+    <div class="mb-3">
+        <label for="Description" class="form-label">Description</label>
+        <input type="text" asp-for="Description" class="form-control">
+        <span class="text-danger" asp-validation-for="Description"></span>
+    </div>
+
+    <div class="mb-3">
+        <label for="Cost" class="form-label">Cost</label>
+        <input type="number" asp-for="Cost" class="form-control">
+        <span class="text-danger" asp-validation-for="Cost"></span>
+    </div>
+
+    <div>
+        <label for="CategoryId">Choose a category:</label>
+        <select name="CategoryId" class="form-select" aria-label="Default select example">
+          <option selected>Open this select menu</option>
+          @foreach(var category in categories)
+            {
+                <option value=@category.Category.Id>@category.Category.Name</option>
+            }
+        </select>
+    </div>
+    
+    <br />
+    <br />
+
+    <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
+        <button type="submit" class="btn btn-primary btn-lg">Create</button>
+    </div>
+
+</form>
+
+<div class="text-danger" asp-validation-summary="ModelOnly"></div>

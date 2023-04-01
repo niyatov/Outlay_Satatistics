@@ -1,0 +1,43 @@
+﻿@model GetShowUsersVM
+
+@if (Model.UsersVM.Count() ==0 )
+{
+    <h1>no users</h1>
+}
+<table class="table">
+    <thead>
+        <tr>
+
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">NumbersOfBuyingThings</th>
+            <th scope="col">ResultMoney</th>    
+            @if(Model.IsAdmin)
+            {
+                <th scope="col">Delete</th>
+            }
+
+        </tr>
+    </thead>
+    <tbody>
+
+        @for(int i=0; i< Model.UsersVM.Count(); i++)
+        {
+            <tr>
+                <th scope="row">@(i+1)</th>
+                <td>@Model.UsersVM[i].UserName</td>
+                <td>@Model.UsersVM[i].NumbersOfBuyingThings</td>
+                <td>@Model.UsersVM[i].ResultMoney</td>
+                @if (Model.IsAdmin)
+                {
+                    <td> <a asp-controller="Category" asp-action="DeleteUser" asp-route-categoryId="@Model.CategoryId" asp-route-userId="@Model.UsersVM[i].Id" class="btn btn-danger"> Delete </a></td>
+                }
+            </tr>
+        }
+
+    </tbody>
+    </table>
+
+<br />
+<br />
+<td> <a asp-controller="Category" asp-action="GetCategory" asp-route-categoryId="@Model.CategoryId"  class="btn btn-info"> Go to Category </a></td>

@@ -1,0 +1,124 @@
+﻿@model GetCategoryVM
+
+<h6>Name : @Model.Name</h6>
+@if( @Model.Description != null)
+{
+    <h6>Description : @Model.Description</h6>
+}
+<h6>CreateAt : @Model.CreateAt</h6>
+<h6>LastUpdateAt : @(Model.LastUpdateAt == null ? "not updated" : Model.LastUpdateAt)</h6>  
+@if(Model.Type == "Public")
+{
+    <h6> IsAdmin : @Model.IsAdmin </h6 >
+}
+
+<h6>Type : @Model.Type</h6>
+
+@if (Model.IsAdmin && Model.Type == "Public")
+{
+	<h6>Key : @Model.Key</h6>
+}
+
+@if (Model.IsAdmin)
+{
+    <td> <a asp-controller="Category" asp-action="UpdateCategory" asp-route-categoryId="@Model.Id" class="btn btn-warning"> Update </a></td>
+    <td> <a asp-controller="Category" asp-action="DeleteCategory" asp-route-categoryId="@Model.Id" class="btn btn-danger"> Delete </a></td>
+}
+
+<br />
+<br />
+<div style ="text-align:center;">
+
+@if(Model.Type == "Public")
+{
+    <td> <a asp-controller="Category" asp-action="ShowUsers" asp-route-categoryId="@Model.Id" class="btn btn-info"> ShowUsers </a></td>
+}
+
+@if (Model.FilterGetOutlays.Outlays != null && Model.FilterGetOutlays.Outlays.Count() > 0)
+{
+   <td> <a asp-controller="Category" asp-action="ShowStatistics" asp-route-categoryId="@Model.Id" class="btn btn-info"> ShowStatistics </a></td>
+}
+
+</div>
+
+<br />
+<br />
+<br />
+<br />
+
+@if (Model.FilterGetOutlays.Outlays != null)
+{
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Description</th>
+            <th scope="col">Cost</th>
+            @if(Model.Type =="Public")
+            {
+            <th scope="col">Username</th>
+            }
+        </tr>
+    </thead>
+
+    <tbody>
+        @for (int i = 0; i < Model.FilterGetOutlays.Outlays.Count(); i++)
+        {
+            <tr>
+                <th scope="row">@((Model.FilterGetOutlays.PaginationParams.Page - 1) * Model.FilterGetOutlays.PaginationParams.Size + i + 1)</th>
+                <td> <a asp-controller="Outlay" asp-action="GetOutlay" asp-route-outlayId="@Model.FilterGetOutlays.Outlays[i].Id" class="btn btn-info">@Model.FilterGetOutlays.Outlays[i].Name </a></td>
+                <td>@(Model.FilterGetOutlays.Outlays[i].Description == null ? "empty" : Model.FilterGetOutlays.Outlays[i].Description) </td>
+                <td>@Model.FilterGetOutlays.Outlays[i].Cost</td>
+                @if(Model.Type =="Public")
+                {
+                    <td>@Model.FilterGetOutlays.Outlays[i].Username</td>
+                }
+            </tr>
+        }
+    </tbody>
+
+    </table>
+}
+else
+{
+    <div style="text-align:center;">
+        <h1>no outlays</h1>
+    </div>
+
+    <br />
+    <br />
+}
+
+ <div style="text-align:end;">
+        <h6>Page: @Model.FilterGetOutlays.PaginationParams.Page, Size: @Model.FilterGetOutlays.PaginationParams.Size</h6>
+</div>
+
+    <div style="text-align:center;">
+
+    @if (Model.FilterGetOutlays.PaginationParams.IsBack)
+    {
+        <td> <a asp-controller="Category" asp-action="GetCategory" asp-route-categoryId="@Model.Id"   asp-route-page="@(Model.FilterGetOutlays.PaginationParams.Page-1)" asp-route-size="@(Model.FilterGetOutlays.PaginationParams.Size)" class="btn btn-info"> Back </a></td>
+    }
+    else 
+    {
+        <td><a class="btn btn-light"> Back </a></td>
+    }
+    @if (Model.FilterGetOutlays.PaginationParams.IsNext)
+    {
+        <td> <a asp-controller="Category" asp-action="GetCategory" asp-route-categoryId="@Model.Id" asp-route-page="@(Model.FilterGetOutlays.PaginationParams.Page+1)" asp-route-size="@(Model.FilterGetOutlays.PaginationParams.Size)" class="btn btn-info"> Next </a></td>
+    }
+    else
+    {
+        <td><a class="btn btn-light"> Next </a></td>
+    }
+
+    </div>
+
+<br />
+<br />
+<td> <a asp-controller="Category" asp-action="GetCategories"  class="btn btn-info"> Go to Categories </a></td>
+
+<div class="text-danger" asp-validation-summary="ModelOnly"></div>
+
+

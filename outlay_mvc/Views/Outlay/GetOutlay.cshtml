@@ -1,0 +1,26 @@
+﻿@model GetOutlayVM
+
+<h6>Name : @Model.Name</h6>
+@if (@Model.Description != null)
+{
+    <h6>Description : @Model.Description</h6>
+}
+<h6>Cost : @Model.Cost</h6>
+<h6>CreateAt : @Model.CreateAt</h6>
+<h6>LastUpdateAt : @(Model.LastUpdateAt == null ? "not updated" : Model.LastUpdateAt)</h6>
+<h6>UserName : @Model.Username</h6>
+<h6>IsAdmin : @Model.IsAdmin</h6>
+<h6>IsOwner : @Model.IsOwner</h6>
+
+@if (Model.IsAdmin || Model.IsOwner)
+{
+    <td> <a asp-controller="Outlay" asp-action="UpdateOutlay" asp-route-outlayId="@Model.Id" class="btn btn-warning"> Update </a></td>
+    <td> <a asp-controller="Outlay" asp-action="DeleteOutlay" asp-route-outlayId="@Model.Id" class="btn btn-danger"> Delete </a></td>
+}
+
+<br />
+<br />
+<br />
+<br />
+<br />
+<td> <a asp-controller="Category" asp-action="GetCategory" asp-route-categoryId="@Model.CategoryId" class="btn btn-info"> Go to Category </a></td>

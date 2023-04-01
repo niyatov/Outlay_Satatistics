@@ -1,0 +1,88 @@
+﻿@using outlay_mvc.Dtoes;
+@model FilterGetCategories
+
+@if (Model.GetCategories != null)
+{
+    <table class="table">
+        <thead>
+
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Description</th>
+                <th scope="col">NumberOfOutlays</th>
+                <th scope="col">IsAdmin</th>
+                <th scope="col">Type</th>
+            </tr>
+
+        </thead>
+        <tbody>
+
+            @for (int i = 0; i < Model.GetCategories.Count(); i++)
+            {
+                <tr>
+                    <th scope="row">@((Model.PaginationParams.Page-1)*Model.PaginationParams.Size + i+1)</th>
+                    <td> <a asp-controller="Category" asp-action="GetCategory" asp-route-categoryId="@Model.GetCategories[i].Id" class="btn btn-info"> @Model.GetCategories[i].Name </a></td>
+                    <td>   @(Model.GetCategories[i].Description == null ? "empty" : Model.GetCategories[i].Description) </td>
+                    <td>@Model.GetCategories[i].NumberOfOutlays</td>
+                    <td>@Model.GetCategories[i].IsAdmin</td>
+                    <td>@Model.GetCategories[i].Type</td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+}
+else
+{
+    <div style="text-align:center;">
+        <h1>no categories</h1>
+    </div>
+    <br />
+    <br />
+}
+
+    <div style="text-align:end;">
+        <h6>Page: @Model.PaginationParams.Page, Size: @Model.PaginationParams.Size</h6>
+    </div>
+
+    <div style="text-align:center;">
+
+    @if (Model.PaginationParams.IsBack)
+    {
+        <td> <a asp-controller="Category" asp-action="GetCategories" asp-route-page="@(Model.PaginationParams.Page-1)" asp-route-size="@(Model.PaginationParams.Size)" class="btn btn-info"> Back </a></td>
+    }
+    else 
+    {
+        <td><a class="btn btn-light"> Back </a></td>
+    }
+    @if (Model.PaginationParams.IsNext)
+    {
+        <td> <a asp-controller="Category" asp-action="GetCategories" asp-route-page="@(Model.PaginationParams.Page+1)" asp-route-size="@(Model.PaginationParams.Size)" class="btn btn-info"> Next </a></td>
+    }
+    else
+    {
+        <td><a class="btn btn-light"> Next </a></td>
+    }
+
+    </div>
+@*
+<form method="get" class="mx-1 mx-md-4">
+
+    <div class="mb-3">
+        <label class="form-label">Size</label>
+        <input type="number" name="size" class="form-control">
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Page</label>
+        <input type="number" name="page" class="form-control">
+    </div>
+
+    <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
+        <button type="submit" class="btn btn-info btn-lg">Filter</button>
+    </div>
+
+</form>*@
+
+<div class="text-danger" asp-validation-summary="ModelOnly"></div>
